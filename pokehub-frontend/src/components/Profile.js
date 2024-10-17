@@ -1,4 +1,3 @@
-// src/components/Profile.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -7,6 +6,7 @@ const Profile = ({ token }) => {
     name: '',
     email: '',
     role: '',
+    profilePic: '', // Add profilePic field to manage the uploaded image
   });
 
   const [error, setError] = useState('');
@@ -56,7 +56,24 @@ const Profile = ({ token }) => {
     }
   };
 
-  const { name, email, role } = formData;
+  const handleProfilePicUpload = async (e) => {
+    const formData = new FormData();
+    formData.append('profilePic', e.target.files[0]); // Append the file to form data
+
+    try {
+      const res = await axios.put('http://localhost:5000/api/users/upload-profile-pic', formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      setSuccess(res.data.msg);
+    } catch (err) {
+      setError('Failed to upload profile picture');
+    }
+  };
+
+  const { name, email, role, profilePic } = formData;
 
   return (
     <div>
@@ -87,6 +104,11 @@ const Profile = ({ token }) => {
         />
         <button type="submit">Update Profile</button>
       </form>
+      
+      {/* Profile Picture Upload */}
+      <input type="file" onChange={handleProfilePicUpload} />
+      {profilePic && <img src={`http://localhost:5000${profilePic}`} alt="Profile" />} {/* Display the uploaded profile pic */}
+      
       {error && <p style={{ color: 'red' }}>{error}</p>}
       {success && <p style={{ color: 'green' }}>{success}</p>}
     </div>
