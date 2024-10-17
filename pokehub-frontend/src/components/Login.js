@@ -19,9 +19,9 @@ const Login = ({ setToken }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     try {
       // Make a POST request to the login endpoint
       const res = await axios.post('http://localhost:5000/api/users/login', formData);
@@ -34,16 +34,17 @@ const Login = ({ setToken }) => {
       
       // Set the token in the app state (for managing logged-in status)
       setToken(token);
-
+  
       // Redirect to homepage (or any other route) after successful login
       navigate('/');
       
       console.log('Logged in successfully');
     } catch (err) {
       console.error('Login error:', err);
-      setError('Invalid login credentials'); // Set error message for invalid login
+      setError('Invalid login credentials');
     }
   };
+  
 
   return (
     <div>

@@ -9,6 +9,8 @@ const Dashboard = ({ token }) => {
 
   // Fetch listings and orders when the component mounts
   useEffect(() => {
+    console.log("Token in Dashboard:", token); // Log the token to check if it's being passed correctly
+
     if (!token) {
       setError('No token provided');
       return;

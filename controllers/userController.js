@@ -7,26 +7,33 @@ const Order = require('../models/Order'); // Assuming you have an Order model
 // Register a new user
 exports.register = async (req, res) => {
   const { name, email, password, role } = req.body;
+
   try {
+    // Check if the user already exists
     let user = await User.findOne({ email });
     if (user) {
       return res.status(400).json({ msg: 'User already exists' });
     }
 
+    // Hash the password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
+    // Create a new user
     user = new User({
       name,
       email,
       password: hashedPassword,
-      role
+      role // Assuming you have roles like "buyer" or "seller"
     });
 
+    // Save the user to the database
     await user.save();
 
+    // Generate a JWT token
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
+    // Respond with the token
     res.json({ token });
   } catch (err) {
     console.error(err.message);
