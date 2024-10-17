@@ -38,3 +38,31 @@ exports.getOrders = async (req, res) => {
     res.status(500).send('Server error');
   }
 };
+
+// Update order status
+exports.updateOrderStatus = async (req, res) => {
+    const { id } = req.params;
+    const { status } = req.body;
+  
+    try {
+      let order = await Order.findById(id);
+  
+      if (!order) {
+        return res.status(404).json({ msg: 'Order not found' });
+      }
+  
+      // Only the seller can update the status
+      if (order.seller.toString() !== req.user) {
+        return res.status(401).json({ msg: 'Not authorized' });
+      }
+  
+      order.status = status;
+      await order.save();
+  
+      res.json(order);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server error');
+    }
+  };
+  
