@@ -1,14 +1,35 @@
+// src/components/Navbar.js
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-const Navbar = () => {
+const Navbar = ({ token, setToken }) => {
+  const handleLogout = () => {
+    localStorage.removeItem('token'); // Remove the token
+    setToken(''); // Clear the token from state
+  };
+
   return (
     <nav>
       <h2>PokeHub</h2>
       <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/listings">Listings</a></li>
-        <li><a href="/add-listing">Add Listing</a></li>
-        <li><a href="/orders">Order History</a></li>
+        <li><Link to="/">Home</Link></li>
+        <li><Link to="/listings">Listings</Link></li>
+        {token && (
+          <>
+            <li><Link to="/add-listing">Add Listing</Link></li>
+            <li><Link to="/my-listings">My Listings</Link></li>
+            <li><Link to="/orders">My Orders</Link></li>
+            <li><Link to="/profile">Profile</Link></li>
+            <li><Link to="/dashboard">Dashboard</Link></li>
+            <li><button onClick={handleLogout}>Logout</button></li>
+          </>
+        )}
+        {!token && (
+          <>
+            <li><Link to="/login">Login</Link></li>
+            <li><Link to="/register">Register</Link></li> {/* Add this link */}
+          </>
+        )}
       </ul>
     </nav>
   );

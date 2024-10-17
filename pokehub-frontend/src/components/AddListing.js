@@ -17,11 +17,16 @@ const AddListing = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    // Send data to the backend API
-    axios.post('/api/listings', formData)
+    const token = localStorage.getItem('token'); // Get the token from localStorage
+
+    // Send data to backend with Authorization header
+    axios.post('/api/listings', formData, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
       .then(response => {
         console.log('Listing added:', response.data);
-        // Optionally clear the form after submission
         setFormData({
           cardName: '',
           cardSet: '',
