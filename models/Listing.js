@@ -1,4 +1,3 @@
-// models/Listing.js
 const mongoose = require('mongoose');
 
 const ListingSchema = new mongoose.Schema({
@@ -27,6 +26,15 @@ const ListingSchema = new mongoose.Schema({
   imageUrl: {
     type: String,
     required: true
+  },
+  status: {
+    type: String,
+    enum: ['available', 'sold', 'removed'],
+    default: 'available'  // Default status for a new listing
+  },
+  category: {
+    type: String,
+    default: 'Cards'  // If you want to add categories for listings
   },
   createdAt: {
     type: Date,

@@ -1,48 +1,39 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const User = require('../models/User'); // Assuming you have a User model
-const Listing = require('../models/Listing'); // Assuming you have a Listing model
-const Order = require('../models/Order'); // Assuming you have an Order model
+const User = require('../models/User');
+const Listing = require('../models/Listing');
+const Order = require('../models/Order');
 const multer = require('multer');
 const path = require('path');
+const Listing = require('../models/Listing'); 
 
-// Configure multer for file upload
+// Multer storage configuration for profile picture uploads
 const storage = multer.diskStorage({
   destination: './uploads/profile_pics/',
   filename: (req, file, cb) => {
-    cb(null, req.user.userId + path.extname(file.originalname)); // Save the file with the user ID
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9); // Add a timestamp and random suffix
+    cb(null, req.user.userId + '-' + uniqueSuffix + path.extname(file.originalname)); // Save file with user ID and suffix
   }
 });
 const upload = multer({ storage });
 
 // Profile picture upload handler
-exports.uploadProfilePicture = [
-  upload.single('profilePic'),
-  async (req, res) => {
-    try {
-      if (!req.file) {
-        console.log("No file received");
-        return res.status(400).send('No file uploaded');
-      }
+exports.uploadProfilePicture = [upload.single('profilePic'), async (req, res) => {
+  try {
+    console.log('Uploading profile picture for user:', req.user.userId);
+    const user = await User.findById(req.user.userId);
 
-      const user = await User.findById(req.user.userId);
-      if (!user) {
-        console.log("User not found");
-        return res.status(404).json({ msg: 'User not found' });
-      }
+    // Update profilePic in the user model
+    user.profilePic = `/uploads/profile_pics/${req.file.filename}`;
+    await user.save(); // Save updated user profile with the profilePic path
 
-      user.profilePic = `/uploads/profile_pics/${req.file.filename}`;
-      await user.save();
-
-      console.log("Profile picture updated successfully");
-      res.json({ msg: 'Profile picture updated successfully', profilePic: user.profilePic });
-    } catch (err) {
-      console.error(err.message);
-      res.status(500).send('Server error');
-    }
+    console.log('Profile picture saved to user:', user.profilePic);
+    res.json({ msg: 'Profile picture updated successfully', profilePic: user.profilePic });
+  } catch (err) {
+    console.error('Error uploading profile picture:', err.message);
+    res.status(500).send('Server error');
   }
-];
-
+}];
 
 // Register a new user
 exports.register = async (req, res) => {
@@ -59,12 +50,13 @@ exports.register = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    // Create a new user
+    // Create a new user with default profile picture
     user = new User({
       name,
       email,
       password: hashedPassword,
-      role // Assuming roles like "buyer" or "seller"
+      role,
+      profilePic: '/uploads/profile_pics/default-profile.png' // Assign default profile picture
     });
 
     // Save the user to the database
@@ -112,13 +104,22 @@ exports.login = async (req, res) => {
 // Fetch user profile
 exports.getProfile = async (req, res) => {
   try {
+    console.log('Fetching profile for user:', req.user.userId);
     const user = await User.findById(req.user.userId).select('-password');
     if (!user) {
       return res.status(404).json({ msg: 'User not found' });
     }
+
+    console.log('Fetched profile:', user);
+
+    // If profilePic is empty or not defined, assign default profile picture
+    if (!user.profilePic) {
+      user.profilePic = '/uploads/profile_pics/default-profile.png';
+    }
+
     res.json(user);
   } catch (err) {
-    console.error(err.message);
+    console.error('Error fetching profile:', err.message);
     res.status(500).send('Server error');
   }
 };
@@ -197,5 +198,47 @@ exports.updatePassword = async (req, res) => {
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server error');
+  }
+};
+
+// Add item to wishlist
+exports.addToWishlist = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.userId);
+    const { itemId } = req.body;
+
+    if (!user.wishlist.includes(itemId)) {
+      user.wishlist.push(itemId);
+      await user.save();
+    }
+
+    res.status(200).json({ msg: 'Item added to wishlist', wishlist: user.wishlist });
+  } catch (err) {
+    res.status(500).json({ msg: 'Server error', error: err.message });
+  }
+};
+
+// Remove item from wishlist
+exports.removeFromWishlist = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.userId);
+    const { itemId } = req.params;
+
+    user.wishlist = user.wishlist.filter(item => item.toString() !== itemId);
+    await user.save();
+
+    res.status(200).json({ msg: 'Item removed from wishlist', wishlist: user.wishlist });
+  } catch (err) {
+    res.status(500).json({ msg: 'Server error', error: err.message });
+  }
+};
+
+// Get user's wishlist
+exports.getWishlist = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.userId).populate('wishlist');
+    res.status(200).json(user.wishlist);
+  } catch (err) {
+    res.status(500).json({ msg: 'Server error', error: err.message });
   }
 };

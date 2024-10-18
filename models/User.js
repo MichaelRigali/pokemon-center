@@ -20,6 +20,16 @@ const UserSchema = new mongoose.Schema({
     enum: ['buyer', 'seller'],
     default: 'buyer',
   },
+  profilePic: {
+    type: String,
+    default: '/uploads/profile_pics/default-profile.png', // Default profile picture path
+  },
+  wishlist: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Listing', 
+    },
+  ],
   createdAt: {
     type: Date,
     default: Date.now,
