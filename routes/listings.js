@@ -1,11 +1,11 @@
 // routes/listings.js
 const express = require('express');
 const router = express.Router();
-const { createListing, getListings } = require('../controllers/listingController');
+const { addListing, getListings, updateListing, deleteListing } = require('../controllers/listingController');
 const auth = require('../middlewares/auth');
 
 // POST /api/listings - Create a new listing
-router.post('/', auth, createListing);
+router.post('/', auth, addListing);
 
 // GET /api/listings - Get all listings
 router.get('/', getListings);

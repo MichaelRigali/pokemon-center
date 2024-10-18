@@ -19,6 +19,7 @@ const Navbar = ({ token, setToken }) => {
             <li><Link to="/add-listing">Add Listing</Link></li>
             <li><Link to="/my-listings">My Listings</Link></li>
             <li><Link to="/orders">My Orders</Link></li>
+            <li><Link to="/wishlist">Wishlist</Link></li>
             <li><Link to="/profile">Profile</Link></li>
             <li><Link to="/dashboard">Dashboard</Link></li>
             <li><button onClick={handleLogout}>Logout</button></li>

@@ -5,7 +5,6 @@ const Listing = require('../models/Listing');
 const Order = require('../models/Order');
 const multer = require('multer');
 const path = require('path');
-const Listing = require('../models/Listing'); 
 
 // Multer storage configuration for profile picture uploads
 const storage = multer.diskStorage({

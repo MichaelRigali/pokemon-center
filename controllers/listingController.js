@@ -1,28 +1,52 @@
-// controllers/listingController.js
+const multer = require('multer');
+const path = require('path');
 const Listing = require('../models/Listing');
 
-// Create a new listing
-exports.createListing = async (req, res) => {
-  const { cardName, cardSet, price, condition, imageUrl } = req.body;
-  const userId = req.user;  // Auth middleware adds this
-
-  try {
-    const newListing = new Listing({
-      user: userId,
-      cardName,
-      cardSet,
-      price,
-      condition,
-      imageUrl
-    });
-
-    await newListing.save();
-    res.json(newListing);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server error');
+// Multer storage configuration for listing image uploads
+const storage = multer.diskStorage({
+  destination: './uploads/listing_images/', // Directory for listing images
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+    cb(null, uniqueSuffix + path.extname(file.originalname)); // Save file with unique name
   }
-};
+});
+const upload = multer({ storage });
+
+// Create a new listing with image upload
+exports.addListing = [
+  upload.single('image'), // Handle image upload
+  async (req, res) => {
+    // Debugging: Check if the request body and file are correctly received
+    console.log('Received data:', req.body);
+    console.log('Received file:', req.file);
+
+    const { cardName, cardSet, price, condition } = req.body;
+
+    
+    if (!req.file) {
+      return res.status(400).json({ msg: 'No image file uploaded' });
+    }
+
+    const imageUrl = `/uploads/listing_images/${req.file.filename}`; // Path to the image file
+
+    try {
+      const newListing = new Listing({
+        user: req.user.userId,
+        cardName,
+        cardSet,
+        price,
+        condition,
+        imageUrl // Save the image path in the database
+      });
+
+      await newListing.save();
+      res.status(201).json({ msg: 'Listing created successfully', listing: newListing });
+    } catch (err) {
+      console.error('Error creating listing:', err.message);
+      res.status(500).send('Server error');
+    }
+  }
+];
 
 // Fetch all listings
 exports.getListings = async (req, res) => {
@@ -36,57 +60,62 @@ exports.getListings = async (req, res) => {
 };
 
 // Update a listing
-exports.updateListing = async (req, res) => {
+exports.updateListing = [
+  upload.single('image'), // Middleware for image upload
+  async (req, res) => {
     const { id } = req.params;
-    const { cardName, cardSet, price, condition, imageUrl } = req.body;
-  
+    const { cardName, cardSet, price, condition } = req.body;
+    
     try {
       let listing = await Listing.findById(id);
       
       if (!listing) {
         return res.status(404).json({ msg: 'Listing not found' });
       }
-  
+
       // Check if the logged-in user is the owner of the listing
       if (listing.user.toString() !== req.user) {
         return res.status(401).json({ msg: 'Not authorized' });
       }
-  
+
+      // If a new image is uploaded, update the imageUrl
+      const imageUrl = req.file ? `/uploads/listing_images/${req.file.filename}` : listing.imageUrl;
+
       // Update listing fields
       listing = await Listing.findByIdAndUpdate(
         id,
         { cardName, cardSet, price, condition, imageUrl },
         { new: true }
       );
-  
+
       res.json(listing);
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server error');
     }
-  };
-  
-  // Delete a listing
-  exports.deleteListing = async (req, res) => {
-    const { id } = req.params;
-  
-    try {
-      const listing = await Listing.findById(id);
-      
-      if (!listing) {
-        return res.status(404).json({ msg: 'Listing not found' });
-      }
-  
-      // Check if the logged-in user is the owner of the listing
-      if (listing.user.toString() !== req.user) {
-        return res.status(401).json({ msg: 'Not authorized' });
-      }
-  
-      await listing.remove();
-      res.json({ msg: 'Listing removed' });
-    } catch (err) {
-      console.error(err.message);
-      res.status(500).send('Server error');
+  }
+];
+
+// Delete a listing
+exports.deleteListing = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const listing = await Listing.findById(id);
+    
+    if (!listing) {
+      return res.status(404).json({ msg: 'Listing not found' });
     }
-  };
-  
+
+    // Check if the logged-in user is the owner of the listing
+    if (listing.user.toString() !== req.user) {
+      return res.status(401).json({ msg: 'Not authorized' });
+    }
+
+    await listing.remove();
+    res.json({ msg: 'Listing removed' });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+};
