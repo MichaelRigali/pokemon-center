@@ -21,7 +21,7 @@ exports.addListing = [
 
     try {
       const newListing = new Listing({
-        user: req.user.userId,
+        user: req.user.userId, // Use req.user.userId
         cardName,
         cardSet,
         price,
@@ -37,7 +37,6 @@ exports.addListing = [
     }
   }
 ];
-
 
 // Fetch all listings
 exports.getListings = async (req, res) => {
@@ -65,7 +64,7 @@ exports.updateListing = [
       }
 
       // Check if the logged-in user is the owner of the listing
-      if (listing.user.toString() !== req.user) {
+      if (listing.user.toString() !== req.user.userId) { // Compare with req.user.userId
         return res.status(401).json({ msg: 'Not authorized' });
       }
 
@@ -91,23 +90,26 @@ exports.updateListing = [
 exports.removeListing = async (req, res) => {
   try {
     const listing = await Listing.findById(req.params.id);
-    
+
     if (!listing) {
       return res.status(404).json({ msg: 'Listing not found' });
     }
 
     // Check if the logged-in user is the owner of the listing
-    if (listing.user.toString() !== req.user) {
+    if (listing.user.toString() !== req.user.userId) { // Compare with req.user.userId
       return res.status(401).json({ msg: 'Not authorized' });
     }
 
-    await listing.remove(); // Remove the listing from the database
+    // Use findByIdAndDelete instead of listing.remove()
+    await Listing.findByIdAndDelete(req.params.id);
+
     res.json({ msg: 'Listing removed successfully' });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server error');
   }
 };
+
 
 // Fetch listings for the logged-in user
 exports.getUserListings = async (req, res) => {
