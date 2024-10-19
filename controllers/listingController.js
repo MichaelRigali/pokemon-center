@@ -88,11 +88,9 @@ exports.updateListing = [
 ];
 
 // Delete a listing
-exports.deleteListing = async (req, res) => {
-  const { id } = req.params;
-
+exports.removeListing = async (req, res) => {
   try {
-    const listing = await Listing.findById(id);
+    const listing = await Listing.findById(req.params.id);
     
     if (!listing) {
       return res.status(404).json({ msg: 'Listing not found' });
@@ -103,13 +101,14 @@ exports.deleteListing = async (req, res) => {
       return res.status(401).json({ msg: 'Not authorized' });
     }
 
-    await listing.remove();
-    res.json({ msg: 'Listing removed' });
+    await listing.remove(); // Remove the listing from the database
+    res.json({ msg: 'Listing removed successfully' });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server error');
   }
 };
+
 // Fetch listings for the logged-in user
 exports.getUserListings = async (req, res) => {
   try {

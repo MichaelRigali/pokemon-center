@@ -1,7 +1,7 @@
 // routes/listings.js
 const express = require('express');
 const router = express.Router();
-const { addListing, getListings, updateListing, deleteListing, getUserListings } = require('../controllers/listingController');
+const { addListing, getListings, updateListing, removeListing, getUserListings } = require('../controllers/listingController');
 const auth = require('../middlewares/auth');
 
 // POST /api/listings - Create a new listing
@@ -14,7 +14,7 @@ router.get('/', getListings);
 router.put('/:id', auth, updateListing);
 
 // Delete a listing by ID
-router.delete('/:id', auth, deleteListing);
+router.delete('/:id', auth, removeListing);
 
 // Route to get the user's own listings
 router.get('/my-listings', auth, getUserListings);

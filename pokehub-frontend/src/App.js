@@ -11,7 +11,7 @@ import PrivateRoute from './components/PrivateRoute'; // PrivateRoute for protec
 import Profile from './components/Profile'; // Profile page for the logged-in user
 import Dashboard from './components/Dashboard'; // Dashboard page for the logged-in user
 import WishlistPage from './components/WishlistPage'; // Wishlist page component
-import MyListings from './components/MyListings'; // My Listings page for the logged-in user
+import MyListings from './components/MyListings'; // My Listings page component
 
 function App() {
   const [token, setToken] = useState('');
@@ -30,33 +30,36 @@ function App() {
       <Navbar token={token} setToken={setToken} />
       <Routes>
         {/* Public routes */}
-        <Route path='/' element={<Home />} />
-        <Route path='/listings' element={<Listings token={token} />} />
-        <Route path='/login' element={<Login setToken={setToken} />} />
-        <Route path='/register' element={<Register />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/listings" element={<Listings token={token} />} />
+        <Route path="/login" element={<Login setToken={setToken} />} />
+        <Route path="/register" element={<Register />} />
 
         {/* Protected routes (PrivateRoute ensures authentication) */}
         <Route
-          path='/add-listing'
+          path="/add-listing"
           element={<PrivateRoute element={<AddListing />} token={token} />}
         />
         <Route
-          path='/orders'
+          path="/orders"
           element={<PrivateRoute element={<OrderHistory />} token={token} />}
         />
         <Route
-          path='/dashboard'
+          path="/dashboard"
           element={<PrivateRoute element={<Dashboard />} token={token} />}
         />
         <Route
-          path='/profile'
+          path="/profile"
           element={<PrivateRoute element={<Profile />} token={token} />}
         />
         <Route
-          path='/wishlist'
+          path="/my-listings"
+          element={<PrivateRoute element={<MyListings />} token={token} />}
+        />
+        <Route
+          path="/wishlist"
           element={<PrivateRoute element={<WishlistPage />} token={token} />}
         />
-        <Route path="/my-listings" element={<PrivateRoute element={<MyListings />} token={token} />} />
       </Routes>
     </Router>
   );
