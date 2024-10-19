@@ -11,6 +11,7 @@ import PrivateRoute from './components/PrivateRoute'; // PrivateRoute for protec
 import Profile from './components/Profile'; // Profile page for the logged-in user
 import Dashboard from './components/Dashboard'; // Dashboard page for the logged-in user
 import WishlistPage from './components/WishlistPage'; // Wishlist page component
+import MyListings from './components/MyListings'; // My Listings page for the logged-in user
 
 function App() {
   const [token, setToken] = useState('');
@@ -55,6 +56,7 @@ function App() {
           path='/wishlist'
           element={<PrivateRoute element={<WishlistPage />} token={token} />}
         />
+        <Route path="/my-listings" element={<PrivateRoute element={<MyListings />} token={token} />} />
       </Routes>
     </Router>
   );

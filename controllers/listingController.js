@@ -16,17 +16,7 @@ const upload = multer({ storage });
 exports.addListing = [
   upload.single('image'), // Handle image upload
   async (req, res) => {
-    // Debugging: Check if the request body and file are correctly received
-    console.log('Received data:', req.body);
-    console.log('Received file:', req.file);
-
     const { cardName, cardSet, price, condition } = req.body;
-
-    
-    if (!req.file) {
-      return res.status(400).json({ msg: 'No image file uploaded' });
-    }
-
     const imageUrl = `/uploads/listing_images/${req.file.filename}`; // Path to the image file
 
     try {
@@ -42,11 +32,12 @@ exports.addListing = [
       await newListing.save();
       res.status(201).json({ msg: 'Listing created successfully', listing: newListing });
     } catch (err) {
-      console.error('Error creating listing:', err.message);
+      console.error(err.message);
       res.status(500).send('Server error');
     }
   }
 ];
+
 
 // Fetch all listings
 exports.getListings = async (req, res) => {
@@ -114,6 +105,16 @@ exports.deleteListing = async (req, res) => {
 
     await listing.remove();
     res.json({ msg: 'Listing removed' });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+};
+// Fetch listings for the logged-in user
+exports.getUserListings = async (req, res) => {
+  try {
+    const listings = await Listing.find({ user: req.user.userId }); // Find listings where user is the logged-in user
+    res.json(listings); // Send listings as JSON
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server error');
