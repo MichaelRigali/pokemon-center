@@ -42,12 +42,25 @@ exports.addListing = [
 exports.getListings = async (req, res) => {
   try {
     const listings = await Listing.find().populate('user', ['name', 'email']);
-    res.json(listings);
+
+    // Check if the logged-in user owns each listing
+    const listingsWithOwnership = listings.map((listing) => {
+      return {
+        ...listing._doc, // Spread existing listing details
+        isOwner: req.user ? listing.user._id.toString() === req.user.userId : false // Add isOwner flag
+      };
+    });
+
+    res.json(listingsWithOwnership);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server error');
   }
 };
+
+
+
+
 
 // Update a listing
 exports.updateListing = [

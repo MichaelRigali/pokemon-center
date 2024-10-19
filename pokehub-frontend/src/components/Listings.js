@@ -10,15 +10,19 @@ const Listings = ({ token }) => {
   useEffect(() => {
     const fetchListingsAndWishlist = async () => {
       try {
-        // Fetch all listings
-        const listingsRes = await axios.get('http://localhost:5000/api/listings');
-        setListings(listingsRes.data);
+        // Fetch all listings with token
+        const listingsRes = await axios.get('http://localhost:5000/api/listings', {
+          headers: {
+            Authorization: `Bearer ${token}`, // Ensure the token is passed
+          }
+        });
+        setListings(listingsRes.data); // Listings should now include the `isOwner` flag from the backend
 
         // Fetch the user's wishlist if they are logged in
         if (token) {
           const wishlistRes = await axios.get('http://localhost:5000/api/users/wishlist', {
             headers: {
-              Authorization: `Bearer ${token}`,
+              Authorization: `Bearer ${token}`, // Use token for fetching wishlist
             },
           });
           setWishlist(wishlistRes.data || []); // Fallback to an empty array
@@ -39,30 +43,13 @@ const Listings = ({ token }) => {
         {},
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`, // Ensure the token is passed
           }
         }
       );
       setWishlist(res.data.wishlist || []); // Update wishlist in the frontend
     } catch (err) {
       setError('Failed to add to wishlist');
-    }
-  };
-
-  // Remove item from wishlist
-  const removeFromWishlist = async (listingId) => {
-    try {
-      const res = await axios.delete(
-        `http://localhost:5000/api/users/wishlist/${listingId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setWishlist(res.data.wishlist || []); // Update wishlist in the frontend
-    } catch (err) {
-      setError('Failed to remove from wishlist');
     }
   };
 
@@ -93,15 +80,18 @@ const Listings = ({ token }) => {
               <p>Price: ${listing.price}</p>
               <p>Condition: {listing.condition}</p>
 
-              {/* If item is already in wishlist, show "Item on Wishlist" */}
-              {isInWishlist(listing._id) ? (
-                <button disabled>
-                  Item on Wishlist
-                </button>
+              {/* If listing belongs to the user, show "Currently owned" */}
+              {listing.isOwner ? (
+                <button disabled>Currently owned</button>
               ) : (
-                <button onClick={() => addToWishlist(listing._id)}>
-                  Add to Wishlist
-                </button>
+                // If item is already in wishlist, show "Item on Wishlist"
+                isInWishlist(listing._id) ? (
+                  <button disabled>Item on Wishlist</button>
+                ) : (
+                  <button onClick={() => addToWishlist(listing._id)}>
+                    Add to Wishlist
+                  </button>
+                )
               )}
             </li>
           ))}
