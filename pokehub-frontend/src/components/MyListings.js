@@ -51,7 +51,7 @@ const MyListings = ({ token }) => {
   
 
   return (
-    <div>
+    <div className='content'>
       <h1>My Listings</h1>
       {error && <p style={{ color: 'red' }}>{error}</p>}
       {success && <p style={{ color: 'green' }}>{success}</p>} {/* Display success message */}

@@ -9,7 +9,7 @@ const Navbar = ({ token, setToken }) => {
   };
 
   return (
-    <nav>
+    <nav className='navbar'>
       <h2>PokeHub</h2>
       <ul>
         <li><Link to="/">Home</Link></li>

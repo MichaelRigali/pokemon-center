@@ -59,7 +59,7 @@ const Listings = ({ token }) => {
   };
 
   return (
-    <div>
+    <div className='content'>
       <h1>Listings</h1>
       {error && <p style={{ color: 'red' }}>{error}</p>}
 

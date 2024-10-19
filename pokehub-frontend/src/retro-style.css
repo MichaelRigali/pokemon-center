@@ -1,0 +1,173 @@
+/* retro-style.css */
+
+/* General body styling with no background image */
+body {
+    font-family: 'Press Start 2P', cursive; /* Retro pixelated font */
+    background-color: #d0e1f9; /* Light blue background */
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+/* Center the main title */
+h1 {
+    text-align: center;
+    color: #0056b3; /* Darker blue for contrast */
+    background-color: #79a3e2; /* Lighter blue background */
+    padding: 15px;
+    border: 4px solid #fff;
+    display: inline-block;
+    font-size: 24px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    box-shadow: 3px 3px 0 #003366; /* Dark blue shadow for retro effect */
+}
+
+/* Style the main container for listings */
+.listings-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 20px;
+    gap: 20px;
+}
+
+/* Individual listing card */
+.listing-item {
+    background-color: #ffffff; /* White background for cards */
+    border: 4px solid #0056b3; /* Blue border */
+    padding: 15px;
+    width: 200px;
+    height: auto;
+    text-align: center;
+    box-shadow: 5px 5px 0 #003366; /* Dark blue shadow for retro effect */
+    border-radius: 10px;
+    transition: transform 0.2s ease-in-out;
+}
+
+/* Hover effect for retro feel */
+.listing-item:hover {
+    transform: translate(-5px, -5px);
+    box-shadow: 10px 10px 0 #003366; /* Stronger dark blue shadow */
+}
+
+/* Card images for listings */
+.listing-item img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border: 2px solid #0056b3; /* Blue border around the images */
+    margin-bottom: 10px;
+}
+
+/* Style the card name */
+.listing-item h3 {
+    font-size: 16px;
+    color: #0056b3; /* Dark blue text for card names */
+    margin: 10px 0;
+}
+
+/* Style the price and condition */
+.listing-item p {
+    font-size: 14px;
+    color: #333; /* Standard dark text for price and condition */
+    margin: 5px 0;
+}
+
+/* Button styling to mimic retro UI */
+button {
+    font-family: 'Press Start 2P', cursive;
+    background-color: #0056b3; /* Dark blue button */
+    color: #fff;
+    border: 2px solid #003366; /* Darker blue border */
+    padding: 5px 10px;
+    text-align: center;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 12px;
+}
+
+button:hover {
+    background-color: #0077e6; /* Lighter blue on hover */
+}
+
+/* Disabled button */
+button:disabled {
+    background-color: #999;
+    color: #fff;
+}
+
+/* Navbar styling */
+.navbar {
+    background-color: #0056b3; /* Dark blue background */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center items vertically */
+    align-items: center; /* Center items horizontally */
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%; /* Full height of the screen */
+    width: 200px; /* Fixed width */
+    border-right: 4px solid #003366; /* Darker blue border */
+    box-shadow: 5px 0 5px -2px rgba(0, 0, 0, 0.3); /* Shadow for depth */
+}
+
+/* Remove bullet points and style links */
+.navbar ul {
+    list-style-type: none; /* Remove bullet points */
+    padding: 0;
+    margin: 0;
+    width: 100%; /* Ensure links take the full width for easier centering */
+}
+
+.navbar li {
+    margin: 15px 0; /* Space out the links */
+    width: 100%; /* Make the list item fill the width of the navbar */
+    text-align: center; /* Center the link text horizontally */
+}
+
+.navbar a {
+    color: #fff;
+    font-family: 'Press Start 2P', cursive; /* Retro font */
+    text-decoration: none;
+    padding: 10px 0;
+    display: block;
+    transition: color 0.3s ease, background-color 0.3s ease;
+    width: 100%; /* Full width for better hover effect */
+}
+
+.navbar a:hover {
+    background-color: #79a3e2; /* Light blue on hover */
+    color: #003366; /* Darker blue for text */
+}
+
+/* Ensure content shifts right when the navbar is fixed */
+.content {
+    margin-left: 250px; /* Add margin to push content to the right (200px width + padding) */
+    padding: 20px;
+    overflow: auto; /* Ensures content that goes beyond the page width is scrollable */
+    box-sizing: border-box; /* Ensures padding is included in the element's total width */
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        width: 150px; /* Make navbar narrower on smaller screens */
+    }
+
+    .content {
+        margin-left: 170px; /* Adjust content margin accordingly */
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar {
+        width: 120px; /* Even narrower for mobile */
+    }
+
+    .content {
+        margin-left: 140px; /* Adjust content margin accordingly */
+    }
+}

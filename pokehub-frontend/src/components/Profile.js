@@ -115,7 +115,7 @@ const Profile = ({ token }) => {
   const { name, email, role, profilePic } = formData;
 
   return (
-    <div>
+    <div className='content'>
       <h1>Your Profile</h1>
 
       {/* Display the profile picture if it exists, or show a default */}

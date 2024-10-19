@@ -12,6 +12,7 @@ import Profile from './components/Profile'; // Profile page for the logged-in us
 import Dashboard from './components/Dashboard'; // Dashboard page for the logged-in user
 import MyWishlist from './components/MyWishlist'; // Correct the import statement
 import MyListings from './components/MyListings'; // My Listings page component
+import './retro-style.css'
 
 function App() {
   const [token, setToken] = useState('');

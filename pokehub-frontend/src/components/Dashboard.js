@@ -50,7 +50,7 @@ const Dashboard = ({ token }) => {
   }, [token]);
 
   return (
-    <div>
+    <div className='content'>
       <h1>Dashboard</h1>
       
       <h2>Your Listings</h2>

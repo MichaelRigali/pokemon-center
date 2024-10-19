@@ -55,7 +55,7 @@ const AddListing = ({ token }) => {
   };
 
   return (
-    <div>
+    <div className='content'>
       <h1>Add a New Listing</h1>
       {error && <p style={{ color: 'red' }}>{error}</p>}
       {success && <p style={{ color: 'green' }}>{success}</p>}

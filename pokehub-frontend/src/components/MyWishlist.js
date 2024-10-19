@@ -40,7 +40,7 @@ const MyWishlist = ({ token }) => {
   };
 
   return (
-    <div>
+    <div className='content'>
       <h1>My Wishlist</h1>
       {error && <p style={{ color: 'red' }}>{error}</p>}
 

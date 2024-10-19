@@ -2,7 +2,7 @@
 import React from 'react';
 
 const OrderHistory = () => {
-  return <div>Order history functionality coming soon!</div>;
+  return <div className='content'>Order history functionality coming soon!</div>;
 };
 
 export default OrderHistory;
