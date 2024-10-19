@@ -200,18 +200,28 @@ exports.updatePassword = async (req, res) => {
   }
 };
 
-// Add item to wishlist
+// Add a listing to the user's wishlist
 exports.addToWishlist = async (req, res) => {
   try {
     const user = await User.findById(req.user.userId);
-    const { itemId } = req.body;
+    const { listingId } = req.params;
 
-    if (!user.wishlist.includes(itemId)) {
-      user.wishlist.push(itemId);
-      await user.save();
+    // Check if the listing exists
+    const listing = await Listing.findById(listingId);
+    if (!listing) {
+      return res.status(404).json({ msg: 'Listing not found' });
     }
 
-    res.status(200).json({ msg: 'Item added to wishlist', wishlist: user.wishlist });
+    // Check if the item is already in the wishlist
+    if (user.wishlist.includes(listingId)) {
+      return res.status(400).json({ msg: 'Listing already in wishlist' });
+    }
+
+    // Add the listing to the wishlist
+    user.wishlist.push(listingId);
+    await user.save();
+
+    res.status(200).json({ msg: 'Listing added to wishlist', wishlist: user.wishlist });
   } catch (err) {
     res.status(500).json({ msg: 'Server error', error: err.message });
   }
@@ -221,23 +231,27 @@ exports.addToWishlist = async (req, res) => {
 exports.removeFromWishlist = async (req, res) => {
   try {
     const user = await User.findById(req.user.userId);
-    const { itemId } = req.params;
+    const { listingId } = req.params;
 
-    user.wishlist = user.wishlist.filter(item => item.toString() !== itemId);
+    user.wishlist = user.wishlist.filter(item => item.toString() !== listingId);
     await user.save();
 
-    res.status(200).json({ msg: 'Item removed from wishlist', wishlist: user.wishlist });
+    res.status(200).json({ msg: 'Listing removed from wishlist', wishlist: user.wishlist });
   } catch (err) {
     res.status(500).json({ msg: 'Server error', error: err.message });
   }
 };
 
+
+
 // Get user's wishlist
+// controllers/userController.js
 exports.getWishlist = async (req, res) => {
   try {
-    const user = await User.findById(req.user.userId).populate('wishlist');
+    const user = await User.findById(req.user.userId).populate('wishlist'); // Populate wishlist with listing details
     res.status(200).json(user.wishlist);
   } catch (err) {
     res.status(500).json({ msg: 'Server error', error: err.message });
   }
 };
+

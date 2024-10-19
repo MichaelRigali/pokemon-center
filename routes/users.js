@@ -28,11 +28,11 @@ router.put('/update-password', auth, updatePassword);
 // Profile picture upload
 router.put('/upload-profile-pic', auth, uploadProfilePicture);
 
-// Add item to wishlist
-router.post('/wishlist', auth, addToWishlist);
+// Add a listing to wishlist
+router.post('/wishlist/:listingId', auth, addToWishlist);
 
-// Remove item from wishlist
-router.delete('/wishlist/:itemId', auth, removeFromWishlist);
+// Remove a listing from wishlist
+router.delete('/wishlist/:listingId', auth, removeFromWishlist);
 
 // Get user's wishlist
 router.get('/wishlist', auth, getWishlist);

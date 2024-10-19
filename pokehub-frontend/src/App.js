@@ -10,7 +10,7 @@ import Register from './components/Register'; // Register component for new user
 import PrivateRoute from './components/PrivateRoute'; // PrivateRoute for protected routes
 import Profile from './components/Profile'; // Profile page for the logged-in user
 import Dashboard from './components/Dashboard'; // Dashboard page for the logged-in user
-import WishlistPage from './components/WishlistPage'; // Wishlist page component
+import MyWishlist from './components/MyWishlist'; // Correct the import statement
 import MyListings from './components/MyListings'; // My Listings page component
 
 function App() {
@@ -57,8 +57,8 @@ function App() {
           element={<PrivateRoute element={<MyListings />} token={token} />}
         />
         <Route
-          path="/wishlist"
-          element={<PrivateRoute element={<WishlistPage />} token={token} />}
+          path='/wishlist'
+          element={<PrivateRoute element={<MyWishlist />} token={token} />}
         />
       </Routes>
     </Router>
