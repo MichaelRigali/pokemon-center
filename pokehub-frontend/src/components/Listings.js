@@ -6,22 +6,22 @@ const Listings = ({ token }) => {
   const [wishlist, setWishlist] = useState([]); // Initialize to an empty array
   const [error, setError] = useState('');
 
-  // Fetch listings and wishlist when the component mounts or when the token changes
+  // Fetch listings and wishlist when the component mounts or the user navigates back
   useEffect(() => {
     const fetchListingsAndWishlist = async () => {
       try {
-        // Fetch listings
+        // Fetch all listings
         const listingsRes = await axios.get('http://localhost:5000/api/listings');
         setListings(listingsRes.data);
 
-        // Fetch wishlist if token is available (for logged-in users)
+        // Fetch the user's wishlist if they are logged in
         if (token) {
           const wishlistRes = await axios.get('http://localhost:5000/api/users/wishlist', {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           });
-          setWishlist(wishlistRes.data.wishlist || []); // Fallback to an empty array if wishlist is undefined
+          setWishlist(wishlistRes.data || []); // Fallback to an empty array
         }
       } catch (err) {
         setError('Failed to load listings or wishlist');
@@ -29,7 +29,7 @@ const Listings = ({ token }) => {
     };
 
     fetchListingsAndWishlist(); // Fetch both listings and wishlist when component mounts
-  }, [token]); // Dependency on the token to re-fetch whenever it changes
+  }, [token]); // Re-fetch data when token changes (e.g., user logs in or out)
 
   // Add item to wishlist
   const addToWishlist = async (listingId) => {
@@ -40,7 +40,7 @@ const Listings = ({ token }) => {
         {
           headers: {
             Authorization: `Bearer ${token}`,
-          },
+          }
         }
       );
       setWishlist(res.data.wishlist || []); // Update wishlist in the frontend
@@ -68,7 +68,7 @@ const Listings = ({ token }) => {
 
   // Check if an item is in the wishlist
   const isInWishlist = (listingId) => {
-    return Array.isArray(wishlist) && wishlist.includes(listingId); // Safe check for wishlist
+    return wishlist.some(item => item._id === listingId); // Compare by `_id`
   };
 
   return (
@@ -92,9 +92,11 @@ const Listings = ({ token }) => {
               </h3>
               <p>Price: ${listing.price}</p>
               <p>Condition: {listing.condition}</p>
+
+              {/* If item is already in wishlist, show "Item on Wishlist" */}
               {isInWishlist(listing._id) ? (
-                <button onClick={() => removeFromWishlist(listing._id)}>
-                  Remove from Wishlist
+                <button disabled>
+                  Item on Wishlist
                 </button>
               ) : (
                 <button onClick={() => addToWishlist(listing._id)}>

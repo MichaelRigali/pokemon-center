@@ -221,7 +221,9 @@ exports.addToWishlist = async (req, res) => {
     user.wishlist.push(listingId);
     await user.save();
 
-    res.status(200).json({ msg: 'Listing added to wishlist', wishlist: user.wishlist });
+    // Re-fetch the updated wishlist and send it back
+    const updatedWishlist = await User.findById(req.user.userId).populate('wishlist');
+    res.status(200).json({ wishlist: updatedWishlist.wishlist });
   } catch (err) {
     res.status(500).json({ msg: 'Server error', error: err.message });
   }
@@ -236,7 +238,9 @@ exports.removeFromWishlist = async (req, res) => {
     user.wishlist = user.wishlist.filter(item => item.toString() !== listingId);
     await user.save();
 
-    res.status(200).json({ msg: 'Listing removed from wishlist', wishlist: user.wishlist });
+    // Re-fetch the updated wishlist and send it back
+    const updatedWishlist = await User.findById(req.user.userId).populate('wishlist');
+    res.status(200).json({ wishlist: updatedWishlist.wishlist });
   } catch (err) {
     res.status(500).json({ msg: 'Server error', error: err.message });
   }
