@@ -34,7 +34,7 @@ const Register = () => {
   };
 
   return (
-    <div>
+    <div className='content'>
       <h1>Register</h1>
       <form onSubmit={handleSubmit}>
         <input

@@ -10,7 +10,7 @@ const Navbar = ({ token, setToken }) => {
 
   return (
     <nav className='navbar'>
-      <h2>PokeHub</h2>
+      <h2>Pok&eacute;Mart</h2>
       <ul>
         <li><Link to="/">Home</Link></li>
         <li><Link to="/listings">Listings</Link></li>

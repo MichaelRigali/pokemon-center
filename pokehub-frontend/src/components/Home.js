@@ -19,7 +19,7 @@ const Home = () => {
 
   return (
     <div className='content'>
-      <h1>Welcome to PokeHub!</h1>
+      <h1>Welcome to Pok&eacute;Mart!</h1>
       <p>Buy and sell your favorite Pokémon cards here!</p>
     </div>
   );

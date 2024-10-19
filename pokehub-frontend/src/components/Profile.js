@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import '../retro-style.css'; // Import the retro styles
 
 const Profile = ({ token }) => {
   const [formData, setFormData] = useState({
@@ -12,6 +13,7 @@ const Profile = ({ token }) => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [selectedFile, setSelectedFile] = useState(null);
+  const [fileName, setFileName] = useState(''); // Initialize fileName state
   const [forceUpdate, setForceUpdate] = useState(Date.now()); // Force image reload with timestamp
 
   // Fetch user data when the component mounts or token changes
@@ -28,7 +30,6 @@ const Profile = ({ token }) => {
         }
       });
 
-      // Ensure the profilePic is part of the formData, fallback to default if missing
       setFormData({
         name: res.data.name,
         email: res.data.email,
@@ -46,7 +47,9 @@ const Profile = ({ token }) => {
 
   // Handle file input change for profile picture upload
   const handleFileChange = (e) => {
-    setSelectedFile(e.target.files[0]); // Capture the selected file
+    const file = e.target.files[0];
+    setSelectedFile(file);
+    setFileName(file ? file.name : ''); // Display selected file name
   };
 
   // Upload profile picture
@@ -116,18 +119,18 @@ const Profile = ({ token }) => {
 
   return (
     <div className='content'>
-      <h1>Your Profile</h1>
+      <h1>Trainer Profile</h1>
 
-      {/* Display the profile picture if it exists, or show a default */}
-      <div>
+      {/* Display the profile picture */}
+      <div className='profile-pic-container'>
         <img
-          src={`http://localhost:5000${profilePic}?t=${forceUpdate}`} // Force reload by appending a timestamp to prevent caching
+          src={`http://localhost:5000${profilePic}?t=${forceUpdate}`} // Force reload by appending a timestamp
           alt='Profile'
-          style={{ width: '150px', height: '150px', borderRadius: '50%' }} // Circular profile image
+          className='profile-pic' // Use class for styling
         />
       </div>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className='profile-form'>
         <input
           type='text'
           name='name'
@@ -135,6 +138,7 @@ const Profile = ({ token }) => {
           onChange={handleChange}
           placeholder='Name'
           required
+          className='profile-input' // Add class for consistent input styling
         />
         <input
           type='email'
@@ -143,6 +147,7 @@ const Profile = ({ token }) => {
           value={email}
           placeholder='Email'
           required
+          className='profile-input'
         />
         <input
           type='text'
@@ -150,22 +155,33 @@ const Profile = ({ token }) => {
           value={role}
           placeholder='Role'
           readOnly
+          className='profile-input'
         />
 
         {/* Profile picture upload */}
-        <div>
-          <label>Upload Profile Picture:</label>
-          <input type='file' onChange={handleFileChange} />
-          <button type='button' onClick={handleProfilePicUpload}>
+        <div className='profile-upload-container'>
+          <label htmlFor="file-upload" className='file-upload-label'>
+            Choose Profile Picture
+          </label>
+          <input
+            id="file-upload"
+            type="file"
+            onChange={handleFileChange}
+            className='file-input'
+          />
+          <span className='file-name'>{fileName || 'No file chosen'}</span> {/* Display the selected file name */}
+          <button type='button' onClick={handleProfilePicUpload} className='profile-button'>
             Save Profile Picture
           </button>
         </div>
 
-        <button type='submit'>Update Profile</button>
+        <button type='submit' className='profile-button'>
+          Update Profile
+        </button>
       </form>
 
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      {success && <p style={{ color: 'green' }}>{success}</p>}
+      {error && <p className='error-message'>{error}</p>}
+      {success && <p className='success-message'>{success}</p>}
     </div>
   );
 };

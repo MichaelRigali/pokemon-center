@@ -44,10 +44,10 @@ const Login = ({ setToken }) => {
       setError('Invalid login credentials');
     }
   };
-  
+
 
   return (
-    <div>
+    <div className='content'>
       <h1>Login</h1>
       <form onSubmit={handleSubmit}>
         <input

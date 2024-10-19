@@ -152,6 +152,106 @@ button:disabled {
     box-sizing: border-box; /* Ensures padding is included in the element's total width */
 }
 
+.profile-pic-container {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.profile-pic {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 4px solid #0056b3; /* Retro blue border */
+    box-shadow: 3px 3px 0 #003366; /* Dark blue shadow */
+}
+
+.profile-form {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-input {
+    font-family: 'Press Start 2P', cursive; /* Retro font */
+    padding: 10px;
+    margin: 10px 0;
+    width: 80%;
+    max-width: 400px;
+    border: 2px solid #0056b3;
+    background-color: #f2f2f2;
+    box-shadow: 3px 3px 0 #003366;
+    text-align: center;
+}
+
+.profile-upload-container {
+    margin: 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Hide the original file input */
+.file-input {
+    display: none;
+}
+
+/* Style the custom upload button */
+.file-upload-label {
+    font-family: 'Press Start 2P', cursive;
+    background-color: #0056b3;
+    color: #fff;
+    border: 2px solid #003366;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.file-upload-label:hover {
+    background-color: #0077e6;
+}
+
+/* Display the selected file name */
+.file-name {
+    font-family: 'Press Start 2P', cursive;
+    margin-top: 5px;
+    color: #333;
+    font-size: 12px;
+}
+
+.profile-button {
+    font-family: 'Press Start 2P', cursive;
+    background-color: #0056b3;
+    color: #fff;
+    border: 2px solid #003366;
+    padding: 10px 20px;
+    margin: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-transform: uppercase;
+}
+
+.profile-button:hover {
+    background-color: #0077e6;
+}
+
+.profile-button:active {
+    background-color: #79a3e2;
+}
+
+.error-message {
+    color: red;
+    margin-top: 10px;
+}
+
+.success-message {
+    color: green;
+    margin-top: 10px;
+}
+
+
 @media (max-width: 768px) {
     .navbar {
         width: 150px; /* Make navbar narrower on smaller screens */
