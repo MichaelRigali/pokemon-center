@@ -43,9 +43,9 @@ exports.createOrder = async (req, res) => {
 // Route to get the orders for the logged-in user
 exports.getOrders = async (req, res) => {
   try {
-    const orders = await Order.find({ buyer: req.user.id })  // Fetch orders where buyer matches the authenticated user
-      .populate('listing') // Populate listing details
-      .populate('seller', 'name email'); // Populate seller details
+    const orders = await Order.find({ buyer: req.user.userId })  // Use req.user.userId, not req.user.id
+      .populate('listing')  // Populate listing details
+      .populate('seller', 'name email');  // Populate seller details
 
     res.json(orders);  // Send orders to frontend
   } catch (err) {
@@ -53,6 +53,7 @@ exports.getOrders = async (req, res) => {
     res.status(500).json({ msg: 'Server error' });
   }
 };
+
 
 // Update order status
 exports.updateOrderStatus = async (req, res) => {
