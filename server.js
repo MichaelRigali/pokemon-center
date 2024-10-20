@@ -37,6 +37,10 @@ mongoose.connect(process.env.MONGO_URI, {
 app.use('/api/users', userRoutes); // User routes for registration, login, etc.
 app.use('/api/listings', listingRoutes); // Added route to handle listings CRUD operations
 
+const orderRoutes = require('./routes/orders'); // Ensure orders route is included
+app.use('/api/orders', orderRoutes); // Route handler for orders
+
+
 // Global Error Handling Middleware (optional but useful for debugging)
 // Catches errors and logs them
 app.use((err, req, res, next) => {

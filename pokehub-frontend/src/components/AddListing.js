@@ -48,6 +48,15 @@ const AddListing = ({ token }) => {
 
       setSuccess('Listing created successfully!');
       setError(''); // Clear error if any
+
+      // Optionally, clear form and file input after success
+      setFormData({
+        cardName: '',
+        cardSet: '',
+        price: '',
+        condition: '',
+      });
+      setSelectedFile(null);
     } catch (err) {
       console.error('Error creating listing:', err);
       setError('Failed to create listing');
@@ -94,6 +103,7 @@ const AddListing = ({ token }) => {
         <div>
           <label>Condition:</label>
           <select name="condition" value={formData.condition} onChange={handleChange} required>
+            <option value="">Select Condition</option> {/* Added placeholder for condition */}
             <option value="mint">Mint</option>
             <option value="near-mint">Near Mint</option>
             <option value="lightly played">Lightly Played</option>
@@ -104,6 +114,7 @@ const AddListing = ({ token }) => {
         <div>
           <label>Upload Image:</label>
           <input type="file" onChange={handleFileChange} accept="image/*" required />
+          {selectedFile && <p>Selected file: {selectedFile.name}</p>} {/* Display selected file name */}
         </div>
         <button type="submit">Add Listing</button>
       </form>
