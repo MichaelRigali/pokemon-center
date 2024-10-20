@@ -251,6 +251,51 @@ button:disabled {
     margin-top: 10px;
 }
 
+/* Table styling */
+.order-history-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    box-shadow: 5px 5px 0 #003366;  /* Retro-style shadow */
+  }
+  
+  .order-history-table th,
+  .order-history-table td {
+    border: 2px solid #0056b3;  /* Blue borders around cells */
+    padding: 10px;
+    text-align: center;
+    font-family: 'Press Start 2P', cursive;  /* Retro pixelated font */
+  }
+  
+  .order-history-table th {
+    background-color: #0056b3;  /* Dark blue header */
+    color: #ffffff;
+    text-transform: uppercase;
+  }
+  
+  .order-history-table td {
+    background-color: #ffffff;  /* White background for cells */
+    color: #333;
+  }
+  
+  /* Order status styling */
+  .order-status.pending {
+    color: orange;
+  }
+  
+  .order-status.completed {
+    color: green;
+  }
+  
+  .order-status.cancelled {
+    color: red;
+  }
+  
+  /* Add a hover effect for rows */
+  .order-history-table tbody tr:hover {
+    background-color: #f0f8ff;  /* Light blue background when hovered */
+  }
+
 
 @media (max-width: 768px) {
     .navbar {
