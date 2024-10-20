@@ -68,22 +68,19 @@ const Listings = ({ token }) => {
   };
 
   // Check if an order for the listing is already pending
-const isOrderPending = (listingId) => {
-  const pending = orders.some(order => order.listing._id === listingId && order.status === 'pending');
-  console.log(`Is order for listing ${listingId} pending?`, pending); // Log whether order is pending
-  return pending;
-};
-
+  const isOrderPending = (listingId) => {
+    return orders.some(order => order.listing._id === listingId && order.status === 'pending');
+  };
 
   // Place an order
   const placeOrder = async (listingId, sellerId) => {
     console.log('Attempting to place order with:', { listingId, sellerId });
-  
+
     if (!listingId || !sellerId) {
       console.error('Missing listingId or sellerId:', { listingId, sellerId });
       return;
     }
-  
+
     try {
       const res = await axios.post(
         'http://localhost:5000/api/orders',
@@ -94,7 +91,7 @@ const isOrderPending = (listingId) => {
           }
         }
       );
-  
+
       console.log('Order placed successfully, response:', res.data);  // Log response data
       alert('Order placed successfully!');  // Give the user feedback
     } catch (err) {
@@ -102,8 +99,6 @@ const isOrderPending = (listingId) => {
       alert('Failed to place order.');
     }
   };
-  
-
 
   return (
     <div className='content'>
@@ -118,14 +113,17 @@ const isOrderPending = (listingId) => {
             <li key={listing._id}>
               <img
                 src={`http://localhost:5000${listing.imageUrl}`} // Adjust the URL to point to your server
-                alt={listing.cardName}
+                alt={listing.name}  // Changed from listing.cardName to listing.name
                 style={{ width: '150px' }}
               />
               <h3>
-                {listing.cardName} - {listing.cardSet}
+                {listing.name} - {listing.series} {/* Display name and series */}
               </h3>
+              <p>Edition: {listing.edition}</p> {/* Added edition */}
+              <p>Holographic: {listing.holographic}</p> {/* Added holographic */}
+              <p>Grade: {listing.grade}</p> {/* Added grade */}
               <p>Price: ${listing.price}</p>
-              <p>Condition: {listing.condition}</p>
+              <p>Status: {listing.condition}</p> {/* Changed from condition */}
 
               {/* If listing belongs to the user, show "Currently owned" */}
               {listing.isOwner ? (

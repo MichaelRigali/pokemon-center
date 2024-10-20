@@ -16,16 +16,18 @@ const upload = multer({ storage });
 exports.addListing = [
   upload.single('image'), // Handle image upload
   async (req, res) => {
-    const { cardName, cardSet, price, condition } = req.body;
+    const { name, series, edition, holographic, grade, price } = req.body;
     const imageUrl = `/uploads/listing_images/${req.file.filename}`; // Path to the image file
 
     try {
       const newListing = new Listing({
         user: req.user.userId, // Use req.user.userId
-        cardName,
-        cardSet,
+        name,
+        series,
+        edition,
+        holographic,
+        grade,
         price,
-        condition,
         imageUrl // Save the image path in the database
       });
 
@@ -37,6 +39,7 @@ exports.addListing = [
     }
   }
 ];
+
 
 // Fetch all listings
 exports.getListings = async (req, res) => {

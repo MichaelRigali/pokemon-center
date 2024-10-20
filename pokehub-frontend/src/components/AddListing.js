@@ -3,10 +3,12 @@ import axios from 'axios';
 
 const AddListing = ({ token }) => {
   const [formData, setFormData] = useState({
-    cardName: '',
-    cardSet: '',
+    name: '',
+    series: '',
+    edition: '',
+    holographic: '',
+    grade: '',
     price: '',
-    condition: '',
   });
   const [selectedFile, setSelectedFile] = useState(null); // To handle image file
   const [error, setError] = useState('');
@@ -33,10 +35,12 @@ const AddListing = ({ token }) => {
     // Create FormData object to send both image and text data
     const formDataToSend = new FormData();
     formDataToSend.append('image', selectedFile); // Append image file
-    formDataToSend.append('cardName', formData.cardName);
-    formDataToSend.append('cardSet', formData.cardSet);
-    formDataToSend.append('price', formData.price);
-    formDataToSend.append('condition', formData.condition);
+    formDataToSend.append('name', formData.name); // Append name
+    formDataToSend.append('series', formData.series); // Append series
+    formDataToSend.append('edition', formData.edition); // Append edition
+    formDataToSend.append('holographic', formData.holographic); // Append holographic status
+    formDataToSend.append('grade', formData.grade); // Append grade
+    formDataToSend.append('price', formData.price); // Append price
 
     try {
       const res = await axios.post('http://localhost:5000/api/listings', formDataToSend, {
@@ -51,10 +55,12 @@ const AddListing = ({ token }) => {
 
       // Optionally, clear form and file input after success
       setFormData({
-        cardName: '',
-        cardSet: '',
+        name: '',
+        series: '',
+        edition: '',
+        holographic: '',
+        grade: '',
         price: '',
-        condition: '',
       });
       setSelectedFile(null);
     } catch (err) {
@@ -71,24 +77,87 @@ const AddListing = ({ token }) => {
 
       <form onSubmit={handleSubmit}>
         <div>
-          <label>Card Name:</label>
+          <label>Name:</label>
           <input
             type="text"
-            name="cardName"
-            value={formData.cardName}
+            name="name"
+            value={formData.name}
             onChange={handleChange}
             required
           />
         </div>
         <div>
-          <label>Card Set:</label>
-          <input
-            type="text"
-            name="cardSet"
-            value={formData.cardSet}
-            onChange={handleChange}
-            required
-          />
+          <label>Series:</label>
+          <select name="series" value={formData.series} onChange={handleChange} required>
+            <option value="">Select Series</option>
+            <option value="Base Set Series">Base Set Series</option>
+            <option value="Gym Heroes Series">Gym Heroes Series</option>
+            {/* Add other series options here */}
+          </select>
+        </div>
+        <div>
+          <label>Edition:</label>
+          <div>
+            <label>
+              <input
+                type="radio"
+                name="edition"
+                value="First Edition"
+                checked={formData.edition === 'First Edition'}
+                onChange={handleChange}
+                required
+              />
+              First Edition
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="edition"
+                value="Non-First Edition"
+                checked={formData.edition === 'Non-First Edition'}
+                onChange={handleChange}
+                required
+              />
+              Non-First Edition
+            </label>
+          </div>
+        </div>
+        <div>
+          <label>Holographic:</label>
+          <div>
+            <label>
+              <input
+                type="radio"
+                name="holographic"
+                value="Holographic"
+                checked={formData.holographic === 'Holographic'}
+                onChange={handleChange}
+                required
+              />
+              Holographic
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="holographic"
+                value="Non-Holographic"
+                checked={formData.holographic === 'Non-Holographic'}
+                onChange={handleChange}
+                required
+              />
+              Non-Holographic
+            </label>
+          </div>
+        </div>
+        <div>
+          <label>Grade:</label>
+          <select name="grade" value={formData.grade} onChange={handleChange} required>
+            <option value="">Select Grade</option>
+            <option value="10">10</option>
+            <option value="9">9</option>
+            <option value="8">8</option>
+            {/* Add other grade options here */}
+          </select>
         </div>
         <div>
           <label>Price:</label>
@@ -99,17 +168,6 @@ const AddListing = ({ token }) => {
             onChange={handleChange}
             required
           />
-        </div>
-        <div>
-          <label>Condition:</label>
-          <select name="condition" value={formData.condition} onChange={handleChange} required>
-            <option value="">Select Condition</option> {/* Added placeholder for condition */}
-            <option value="mint">Mint</option>
-            <option value="near-mint">Near Mint</option>
-            <option value="lightly played">Lightly Played</option>
-            <option value="moderately played">Moderately Played</option>
-            <option value="heavily played">Heavily Played</option>
-          </select>
         </div>
         <div>
           <label>Upload Image:</label>

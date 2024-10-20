@@ -49,14 +49,17 @@ const MyWishlist = ({ token }) => {
       ) : (
         <ul>
           {wishlist.map((listing) => (
-            <li key={listing._id}>
+            <li key={listing._id} style={{ listStyleType: 'none', marginBottom: '20px' }}>
               {/* Display the image */}
               <img
                 src={`http://localhost:5000${listing.imageUrl}`}
-                alt={listing.cardName}
+                alt={listing.name} // Change from listing.cardName to listing.name
                 style={{ width: '150px', height: '150px', objectFit: 'cover' }}
               />
-              <h3>{listing.cardName} - {listing.cardSet}</h3>
+              <h3>{listing.name} - {listing.series}</h3> {/* Updated to name and series */}
+              <p>Edition: {listing.edition}</p> {/* New field for edition */}
+              <p>Holographic: {listing.holographic}</p> {/* New field for holographic */}
+              <p>Grade: {listing.grade}</p> {/* New field for grade */}
               <p>Price: ${listing.price}</p>
               <p>Condition: {listing.condition}</p>
               <button onClick={() => removeFromWishlist(listing._id)}>

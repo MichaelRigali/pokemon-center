@@ -53,7 +53,7 @@ const OrderHistory = ({ token }) => {
           <tbody>
             {orders.map((order) => (
               <tr key={order._id}>
-                <td>{order.listing.cardName}</td>
+                <td>{order.listing.name}</td>
                 <td>{order.seller.name}</td>
                 <td><span className={`order-status ${order.status}`}>{order.status}</span></td>
                 <td>${order.totalPrice}</td>
