@@ -100,49 +100,63 @@ button:disabled {
 
 /* Navbar styling */
 .navbar {
-    background-color: #0056b3; /* Dark blue background */
+    background-color: #e64f53; /* Custom red background */
     padding: 20px;
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Center items vertically */
-    align-items: center; /* Center items horizontally */
-    position: fixed;
+    justify-content: center;
+    align-items: center;
+    position: fixed; /* Fix the position of the Navbar */
     top: 0;
     left: 0;
-    height: 100%; /* Full height of the screen */
+    height: 100vh; /* Full height of the screen */
     width: 200px; /* Fixed width */
     border-right: 4px solid #003366; /* Darker blue border */
     box-shadow: 5px 0 5px -2px rgba(0, 0, 0, 0.3); /* Shadow for depth */
+    z-index: 1000; /* Ensure the Navbar is always on top of other elements */
 }
 
-/* Remove bullet points and style links */
+/* Adjust other content to ensure it doesn't overlap with the fixed Navbar */
+.content {
+    margin-left: 220px; /* Add margin to push content to the right */
+    padding: 20px;
+    overflow: auto;
+    box-sizing: border-box;
+}
+
+/* Ensuring the navbar items and links are visible and styled */
+.navbar h2 {
+    color: white;
+}
+
 .navbar ul {
     list-style-type: none; /* Remove bullet points */
     padding: 0;
     margin: 0;
-    width: 100%; /* Ensure links take the full width for easier centering */
+    width: 100%; /* Full width for easier centering */
 }
 
 .navbar li {
     margin: 15px 0; /* Space out the links */
-    width: 100%; /* Make the list item fill the width of the navbar */
-    text-align: center; /* Center the link text horizontally */
+    width: 100%; /* Full width */
+    text-align: center; /* Center the text */
 }
 
 .navbar a {
     color: #fff;
-    font-family: 'Press Start 2P', cursive; /* Retro font */
+    font-family: 'Press Start 2P', cursive;
     text-decoration: none;
     padding: 10px 0;
     display: block;
+    width: 100%;
     transition: color 0.3s ease, background-color 0.3s ease;
-    width: 100%; /* Full width for better hover effect */
 }
 
 .navbar a:hover {
-    background-color: #79a3e2; /* Light blue on hover */
-    color: #003366; /* Darker blue for text */
+    background-color: #79a3e2; /* Lighter blue on hover */
+    color: #003366; /* Darker blue text */
 }
+
 
 /* Ensure content shifts right when the navbar is fixed */
 .content {
@@ -296,6 +310,44 @@ button:disabled {
     background-color: #f0f8ff;  /* Light blue background when hovered */
   }
 
+  /* Home.css */
+
+/* Container for the home page */
+.home-container {
+    background-image: url('../public/uploads/background/pokeball.png'); /* Set the background image */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh; /* Full view height */
+    width: 100%;   /* Full width */
+    display: flex;
+    justify-content: center;
+
+  }
+  
+  /* Style the content block */
+  .home-content {
+    background-color: #ffb494; /* Add transparency to the background */
+    padding: 50px;
+    border-radius: 15px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    height: 7%;
+    width: 100%;
+    text-align: center; /* Ensure content inside is centered */
+  }
+
+  /* Adjust font sizes and colors for the home page */
+  .home-content h1 {
+    color: rgb(255, 255, 255); /* Blue text color */
+    background-color: #8e2020;
+    font-size: 60px;
+  }
+  
+  .home-content p {
+    color: #333;
+    font-size: 18px;
+    margin-bottom: 15px;
+  }
 
 @media (max-width: 768px) {
     .navbar {

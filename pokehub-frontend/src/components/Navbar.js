@@ -1,4 +1,3 @@
-// src/components/Navbar.js
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -10,7 +9,7 @@ const Navbar = ({ token, setToken }) => {
 
   return (
     <nav className='navbar'>
-      <h2>Pok&eacute;Mart</h2>
+      <h2>Pages</h2>
       <ul>
         <li><Link to="/">Home</Link></li>
         <li><Link to="/listings">Listings</Link></li>
@@ -28,7 +27,7 @@ const Navbar = ({ token, setToken }) => {
         {!token && (
           <>
             <li><Link to="/login">Login</Link></li>
-            <li><Link to="/register">Register</Link></li> {/* Add this link */}
+            <li><Link to="/register">Register</Link></li>
           </>
         )}
       </ul>
