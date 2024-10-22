@@ -1,0 +1,147 @@
+/* Navbar Container */
+.navbar {
+    background-color: #e64f53; /* Navbar background */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%; /* Full height of the screen */
+    width: 200px; /* Fixed width */
+    border-right: 4px solid #003366; /* Border color */
+  }
+  
+  /* Navbar Heading */
+  .navbar h2 {
+    color: #fff;
+    border-top: solid 3px white;
+    border-right: solid 3px black;
+    border-bottom: solid 3px white;
+    background-color: rgb(137, 19, 19);
+    padding: 30px 0;
+    text-align: center;
+    text-decoration: underline;
+    width: 343px;
+    font-size: 24px;
+    box-shadow: 0px 3px 0 black;
+  }
+
+  /* Navbar Links */
+  .navbar ul {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+    text-align: center;
+  }
+  
+  /* Each List Item */
+  .navbar li {
+    margin: 15px 0;
+    box-shadow: 0px 3px 0 black;
+  }
+  
+  /* Styling for Buttons */
+  .nav-button {
+    display: inline-block;
+    width: 303.5px;
+    padding: 12px 0;
+
+    font-family: 'Press Start 2P', cursive;
+    font-size: 18px;
+    text-transform: uppercase;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    border: 2px solid #003366;
+  }
+
+  .nav-button.logout {
+    background-color: #e74c3c; /* Dark red */
+    color: #fff;
+    width: 160px; /* Same width as other buttons */
+    padding: 12px 0; /* Ensure padding is consistent */
+    font-family: 'Press Start 2P', cursive;
+    font-size: 18px;
+    text-transform: uppercase;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    border: 2px solid #003366;
+  }
+
+
+  /* Colorful Buttons */
+  .nav-button.home {
+    background-color: #79a3e2; /* Light blue */
+    color: #fff;
+  }
+  
+  .nav-button.listings {
+    background-color: #f0ad4e; /* Orange */
+    color: #fff;
+  }
+  
+  .nav-button.forum {
+    background-color: #5bc0de; /* Cyan */
+    color: #fff;
+  }
+  
+  .nav-button.collection {
+    background-color: #d9534f; /* Red */
+    color: #fff;
+  }
+  
+  .nav-button.add-listing {
+    background-color: #5cb85c; /* Green */
+    color: #fff;
+  }
+  
+  .nav-button.my-listings {
+    background-color: #337ab7; /* Dark blue */
+    color: #fff;
+  }
+  
+  .nav-button.orders {
+    background-color: #ff6f61; /* Coral */
+    color: #fff;
+  }
+  
+  .nav-button.wishlist {
+    background-color: #f7b731; /* Yellow */
+    color: #fff;
+  }
+  
+  .nav-button.profile {
+    background-color: #37ef71; /* Purple */
+    color: #fff;
+  }
+
+  .nav-button.profile2 {
+    background-color: #5744ad; /* Purple */
+    color: #fff;
+  }
+  
+  .nav-button.logout {
+    background-color: #e74c3c; /* Dark red */
+    color: #fff;
+  }
+  
+  .nav-button.login {
+    background-color: #3498db; /* Light blue */
+    color: #fff;
+  }
+  
+  .nav-button.register {
+    background-color: #2ecc71; /* Green */
+    color: #fff;
+  }
+  
+  /* Hover Effect */
+  .nav-button:hover {
+    background-color: #0077e6; /* Slightly darker on hover */
+    transform: scale(1.05); /* Scale up slightly on hover */
+  }

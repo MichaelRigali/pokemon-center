@@ -14,13 +14,12 @@ h1 {
     text-align: center;
     color: #0056b3; /* Darker blue for contrast */
     background-color: #79a3e2; /* Lighter blue background */
-    padding: 15px;
     border: 4px solid #fff;
     display: inline-block;
     font-size: 24px;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    padding: 25px;
     box-shadow: 3px 3px 0 #003366; /* Dark blue shadow for retro effect */
+    text-decoration: underline;
 }
 
 /* Style the main container for listings */
@@ -110,24 +109,20 @@ button:disabled {
     top: 0;
     left: 0;
     height: 100vh; /* Full height of the screen */
-    width: 200px; /* Fixed width */
+    width: 300px; /* Fixed width */
     border-right: 4px solid #003366; /* Darker blue border */
     box-shadow: 5px 0 5px -2px rgba(0, 0, 0, 0.3); /* Shadow for depth */
     z-index: 1000; /* Ensure the Navbar is always on top of other elements */
 }
 
-/* Adjust other content to ensure it doesn't overlap with the fixed Navbar */
+/* Ensure content shifts right when the navbar is fixed */
 .content {
-    margin-left: 220px; /* Add margin to push content to the right */
+    margin-left: 340px; /* Add margin to push content to the right, slightly larger than the navbar width for spacing */
     padding: 20px;
-    overflow: auto;
-    box-sizing: border-box;
+    overflow: auto; /* Ensures content that goes beyond the page width is scrollable */
+    box-sizing: border-box; /* Ensures padding is included in the element's total width */
 }
 
-/* Ensuring the navbar items and links are visible and styled */
-.navbar h2 {
-    color: white;
-}
 
 .navbar ul {
     list-style-type: none; /* Remove bullet points */
@@ -157,14 +152,6 @@ button:disabled {
     color: #003366; /* Darker blue text */
 }
 
-
-/* Ensure content shifts right when the navbar is fixed */
-.content {
-    margin-left: 250px; /* Add margin to push content to the right (200px width + padding) */
-    padding: 20px;
-    overflow: auto; /* Ensures content that goes beyond the page width is scrollable */
-    box-sizing: border-box; /* Ensures padding is included in the element's total width */
-}
 
 .profile-pic-container {
     margin-bottom: 20px;
@@ -316,7 +303,7 @@ button:disabled {
 .home-container {
     background-image: url('../public/uploads/background/pokeball.png'); /* Set the background image */
     background-size: cover;
-    background-position: center;
+    background-position: 70px 20px;
     background-repeat: no-repeat;
     height: 100vh; /* Full view height */
     width: 100%;   /* Full width */
@@ -334,6 +321,7 @@ button:disabled {
     height: 7%;
     width: 100%;
     text-align: center; /* Ensure content inside is centered */
+    border-bottom: solid 2px black;
   }
 
   /* Adjust font sizes and colors for the home page */
@@ -349,22 +337,3 @@ button:disabled {
     margin-bottom: 15px;
   }
 
-@media (max-width: 768px) {
-    .navbar {
-        width: 150px; /* Make navbar narrower on smaller screens */
-    }
-
-    .content {
-        margin-left: 170px; /* Adjust content margin accordingly */
-    }
-}
-
-@media (max-width: 480px) {
-    .navbar {
-        width: 120px; /* Even narrower for mobile */
-    }
-
-    .content {
-        margin-left: 140px; /* Adjust content margin accordingly */
-    }
-}
