@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar'; // Navigation bar component
 import Home from './components/Home'; // Home page component
 import Listings from './components/Listings'; // Listings page component
@@ -13,10 +13,12 @@ import MyWishlist from './components/MyWishlist'; // Wishlist component
 import MyListings from './components/MyListings'; // My Listings page component
 import Forum from './components/Forum'; // New Forum component
 import MyCollection from './components/MyCollection'; // New My Collection component
+import { AnimatePresence, motion } from 'framer-motion'; // Import motion components
 import './retro-style.css';
 
 function App() {
   const [token, setToken] = useState('');
+  const location = useLocation(); // Get the current location for route transitions
 
   useEffect(() => {
     const savedToken = localStorage.getItem('token');
@@ -25,24 +27,121 @@ function App() {
     }
   }, []);
 
-  return (
-    <Router>
-      <Navbar token={token} setToken={setToken} />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/listings" element={<Listings token={token} />} />
-        <Route path="/forum" element={<Forum />} /> {/* Forum route */}
-        <Route path="/my-collection" element={<PrivateRoute element={<MyCollection token={token} />} token={token} />} /> {/* My Collection route */}
-        <Route path="/login" element={<Login setToken={setToken} />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/add-listing" element={<PrivateRoute element={<AddListing />} token={token} />} />
-        <Route path="/orders" element={<PrivateRoute element={<OrderHistory />} token={token} />} />
+  // Define a reusable transition
+  const pageTransition = {
+    initial: { opacity: 0 },
+    animate: { opacity: 1 },
+    exit: { opacity: 0 },
+    transition: { duration: 0.35 }, // Set the transition duration to 0.35 seconds
+  };
 
-        <Route path="/profile" element={<PrivateRoute element={<Profile />} token={token} />} />
-        <Route path="/my-listings" element={<PrivateRoute element={<MyListings />} token={token} />} />
-        <Route path="/wishlist" element={<PrivateRoute element={<MyWishlist />} token={token} />} />
-      </Routes>
-    </Router>
+  return (
+    <div>
+      <Navbar token={token} setToken={setToken} />
+      <AnimatePresence mode="wait">
+        <Routes location={location} key={location.pathname}>
+          {/* Home Route */}
+          <Route
+            path="/"
+            element={
+              <motion.div {...pageTransition}>
+                <Home />
+              </motion.div>
+            }
+          />
+          {/* Listings Route */}
+          <Route
+            path="/listings"
+            element={
+              <motion.div {...pageTransition}>
+                <Listings token={token} />
+              </motion.div>
+            }
+          />
+          {/* Forum Route */}
+          <Route
+            path="/forum"
+            element={
+              <motion.div {...pageTransition}>
+                <Forum />
+              </motion.div>
+            }
+          />
+          {/* My Collection Route */}
+          <Route
+            path="/my-collection"
+            element={
+              <motion.div {...pageTransition}>
+                <PrivateRoute element={<MyCollection token={token} />} token={token} />
+              </motion.div>
+            }
+          />
+          {/* Login Route */}
+          <Route
+            path="/login"
+            element={
+              <motion.div {...pageTransition}>
+                <Login setToken={setToken} />
+              </motion.div>
+            }
+          />
+          {/* Register Route */}
+          <Route
+            path="/register"
+            element={
+              <motion.div {...pageTransition}>
+                <Register />
+              </motion.div>
+            }
+          />
+          {/* Add Listing Route */}
+          <Route
+            path="/add-listing"
+            element={
+              <motion.div {...pageTransition}>
+                <PrivateRoute element={<AddListing />} token={token} />
+              </motion.div>
+            }
+          />
+          {/* Orders Route */}
+          <Route
+            path="/orders"
+            element={
+              <motion.div {...pageTransition}>
+                <PrivateRoute element={<OrderHistory />} token={token} />
+              </motion.div>
+            }
+          />
+          {/* Profile Route */}
+          <Route
+            path="/profile"
+            element={
+              <motion.div {...pageTransition}>
+                <PrivateRoute element={<Profile />} token={token} />
+              </motion.div>
+            }
+          />
+          {/* My Listings Route */}
+          <Route
+            path="/my-listings"
+            element={
+              <motion.div {...pageTransition}>
+                <PrivateRoute element={<MyListings />} token={token} />
+              </motion.div>
+            }
+          />
+          {/* Wishlist Route */}
+          <Route
+            path="/wishlist"
+            element={
+              <motion.div {...pageTransition}>
+                <PrivateRoute element={<MyWishlist />} token={token} />
+              </motion.div>
+            }
+          />
+        </Routes>
+      </AnimatePresence>
+    </div>
   );
 }
 

@@ -12,7 +12,7 @@
     width: 200px; /* Fixed width */
     border-right: 4px solid #003366; /* Border color */
   }
-  
+
   /* Navbar Heading */
   .navbar h2 {
     color: #fff;
@@ -35,7 +35,7 @@
     width: 100%;
     text-align: center;
   }
-  
+
   /* Each List Item */
   .navbar li {
     margin: 15px 0;
