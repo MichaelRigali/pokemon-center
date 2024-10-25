@@ -52,7 +52,7 @@ const MyWishlist = ({ token }) => {
             <li key={listing._id} style={{ listStyleType: 'none', marginBottom: '20px' }}>
               {/* Display the image */}
               <img
-                src={`http://localhost:5000${listing.imageUrl}`}
+                src={`http://localhost:5000${listing.primaryImage}`}
                 alt={listing.name} // Change from listing.cardName to listing.name
                 style={{ width: '150px', height: '150px', objectFit: 'cover' }}
               />

@@ -11,7 +11,7 @@ const Listings = ({ token }) => {
   useEffect(() => {
     const fetchListingsAndWishlist = async () => {
       try {
-        // Fetch all listings with token
+        // Fetch all listings
         const listingsRes = await axios.get('http://localhost:5000/api/listings', {
           headers: {
             Authorization: `Bearer ${token}`, // Ensure the token is passed
@@ -69,13 +69,11 @@ const Listings = ({ token }) => {
 
   // Check if an order for the listing is already pending
   const isOrderPending = (listingId) => {
-    return orders.some(order => order.listing._id === listingId && order.status === 'pending');
+    return orders.some(order => order.listing && order.listing._id === listingId && order.status === 'pending');
   };
 
   // Place an order
   const placeOrder = async (listingId, sellerId) => {
-    console.log('Attempting to place order with:', { listingId, sellerId });
-
     if (!listingId || !sellerId) {
       console.error('Missing listingId or sellerId:', { listingId, sellerId });
       return;
@@ -91,9 +89,7 @@ const Listings = ({ token }) => {
           }
         }
       );
-
-      console.log('Order placed successfully, response:', res.data);  // Log response data
-      alert('Order placed successfully!');  // Give the user feedback
+      alert('Order placed successfully!');
     } catch (err) {
       console.error('Error placing order:', err.response ? err.response.data : err.message);  // Log error details
       alert('Failed to place order.');
@@ -112,42 +108,40 @@ const Listings = ({ token }) => {
           {listings.map((listing) => (
             <li key={listing._id}>
               <img
-                src={`http://localhost:5000${listing.imageUrl}`} // Adjust the URL to point to your server
-                alt={listing.name}  // Changed from listing.cardName to listing.name
+                src={`http://localhost:5000${listing.primaryImage}`} // Adjust the URL to point to your server
+                alt={listing.name}
                 style={{ width: '150px' }}
               />
-              <h3>
-                {listing.name} - {listing.series} {/* Display name and series */}
-              </h3>
-              <p>Edition: {listing.edition}</p> {/* Added edition */}
-              <p>Holographic: {listing.holographic}</p> {/* Added holographic */}
-              <p>Grade: {listing.grade}</p> {/* Added grade */}
+              <h3>{listing.name} - {listing.series}</h3>
+              <p>Edition: {listing.edition}</p>
+              <p>Holographic: {listing.holographic}</p>
+              <p>Grade: {listing.grade}</p>
               <p>Price: ${listing.price}</p>
-              <p>Status: {listing.condition}</p> {/* Changed from condition */}
 
-              {/* If listing belongs to the user, show "Currently owned" */}
-              {listing.isOwner ? (
-                <button disabled>Currently owned</button>
+              {listing.user && listing.user._id ? (
+                listing.isOwner ? (
+                  <button disabled>Currently owned</button>
+                ) : (
+                  <>
+                    {isOrderPending(listing._id) ? (
+                      <button disabled>Pending Order</button>
+                    ) : (
+                      <button onClick={() => placeOrder(listing._id, listing.user._id)}>
+                        Place Order
+                      </button>
+                    )}
+
+                    {isInWishlist(listing._id) ? (
+                      <button disabled>Item on Wishlist</button>
+                    ) : (
+                      <button onClick={() => addToWishlist(listing._id)}>
+                        Add to Wishlist
+                      </button>
+                    )}
+                  </>
+                )
               ) : (
-                <>
-                  {/* If order is pending, show "Pending Order" */}
-                  {isOrderPending(listing._id) ? (
-                    <button disabled>Pending Order</button>
-                  ) : (
-                    <button onClick={() => placeOrder(listing._id, listing.user._id)}>
-                      Place Order
-                    </button>
-                  )}
-
-                  {/* If item is already in wishlist, show "Item on Wishlist" */}
-                  {isInWishlist(listing._id) ? (
-                    <button disabled>Item on Wishlist</button>
-                  ) : (
-                    <button onClick={() => addToWishlist(listing._id)}>
-                      Add to Wishlist
-                    </button>
-                  )}
-                </>
+                <p>Owner information not available</p>
               )}
             </li>
           ))}

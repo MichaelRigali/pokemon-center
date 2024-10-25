@@ -161,16 +161,22 @@ exports.getUserListings = async (req, res) => {
 // Fetch user's order history
 exports.getOrderHistory = async (req, res) => {
   try {
-    const orders = await Order.find({ buyerId: req.user.userId });
+    const orders = await Order.find({ buyer: req.user.userId })
+      .populate('listing', 'name price imageUrl')  // Populate listing details (name, price, imageUrl)
+      .populate('seller', 'name email')            // Populate seller details (name, email)
+      .populate('buyer', 'name email');            // Populate buyer details (name, email)
+
     if (!orders || orders.length === 0) {
       return res.status(404).json({ msg: 'No orders found' });
     }
+
     res.json(orders);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server error');
   }
 };
+
 
 // Update password for a logged-in user
 exports.updatePassword = async (req, res) => {

@@ -53,8 +53,10 @@ const OrderHistory = ({ token }) => {
           <tbody>
             {orders.map((order) => (
               <tr key={order._id}>
-                <td>{order.listing.name}</td>
-                <td>{order.seller.name}</td>
+                {/* Safely access the listing name */}
+                <td>{order.listing?.name || 'Unknown'}</td>
+                {/* Safely access the seller's name */}
+                <td>{order.seller?.name || 'Unknown'}</td>
                 <td><span className={`order-status ${order.status}`}>{order.status}</span></td>
                 <td>${order.totalPrice}</td>
                 <td>{new Date(order.createdAt).toLocaleString()}</td>

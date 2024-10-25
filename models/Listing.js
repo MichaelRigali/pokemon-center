@@ -3,46 +3,54 @@ const mongoose = require('mongoose');
 const ListingSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',  // Reference to the User who created the listing
-    required: true
+    ref: 'User',
+    required: true,
   },
-  name: {  // Updated to reflect "name" instead of cardName
+  name: {
     type: String,
-    required: true
+    required: true,
   },
-  series: {  // Added series field
+  series: {
     type: String,
-    required: true
+    required: true,
   },
-  edition: {  // Added edition field (First or Non-First)
+  edition: {
     type: String,
-    required: true
+    required: true,
   },
-  holographic: {  // Added holographic field (True/False)
+  holographic: {
     type: String,
-    required: true
+    required: true,
   },
-  grade: {  // Added grade field (Mint, Near Mint, etc.)
+  grade: {
     type: String,
-    required: true
+    required: true,
   },
   price: {
     type: Number,
-    required: true
+    required: true,
   },
-  imageUrl: {
+  primaryImage: {
     type: String,
-    required: true
+    required: true,
+  },
+  secondaryImages: {
+    type: [String],
+  },
+  openToTrade: {
+    type: Boolean,
+  },
+  tradeDetails: {
+    type: String,
   },
   status: {
     type: String,
-    enum: ['available', 'sold', 'removed'],
-    default: 'available'  // Default status for a new listing
+    default: 'available',
   },
   createdAt: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
 
 module.exports = mongoose.model('Listing', ListingSchema);

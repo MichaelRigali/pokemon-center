@@ -64,11 +64,11 @@ const MyListings = ({ token }) => {
             <li key={listing._id}>
               {/* Ensure the image is displayed with the correct path */}
               <img
-                src={`http://localhost:5000${listing.imageUrl}`} // Display the image using the correct path
+                src={`http://localhost:5000${listing.primaryImage}`} // Display the image using the correct path
                 alt={listing.cardName}
                 style={{ width: '150px' }}
               />
-              <h3>{listing.cardName} - {listing.cardSet}</h3>
+              <h3>{listing.name} - {listing.series}</h3>
               <p>Price: ${listing.price}</p>
               <p>Condition: {listing.condition}</p>
 
